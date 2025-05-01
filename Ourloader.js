@@ -71,7 +71,7 @@
   window.sendMessage = function() {
     const m = v("chatMessage");
     if (!m) return;
-    appendMsg("You", m); document.getElementById("chatMessage").value = ""; sendToN8n(m);
+    appendMsg("You", m); document.getElementById("chatMessage").value = ""; sendToServer(m);
   };
   function appendMsg(sender, text) {
     const b = document.getElementById("chatBody"), t = new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
@@ -79,11 +79,11 @@
     d.innerHTML = `<div class="chat-user">${sender}</div><div>${text}</div><div class="chat-time">${t}</div>`;
     b.appendChild(d); b.scrollTop = b.scrollHeight;
   }
-  async function sendToN8n(msg) {
+  async function sendToServer(msg) {
     appendMsg("Support", ""); const b = document.getElementById("chatBody");
     const r = b.querySelectorAll(".chat-msg:last-child")[0].children[1];
     try {
-      const res = await fetch("https://your-n8n-instance.com/webhook/chat?key=secure123", {
+      const res = await fetch("https://mydomain.com/webhook/chat?key=secure123", {
         method: "POST", headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
           name: userInfo.fname, email: userInfo.email, phone: userInfo.phone, message: msg
